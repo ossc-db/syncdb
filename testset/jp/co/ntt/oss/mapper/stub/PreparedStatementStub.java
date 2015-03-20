@@ -392,6 +392,7 @@ public class PreparedStatementStub implements PreparedStatement {
 	}
 
 	@Override
+	@Deprecated
 	public void setUnicodeStream(int parameterIndex, InputStream x, int length)
 			throws SQLException {
 		// TODO 自動生成されたメソッド・スタブ
@@ -580,6 +581,17 @@ public class PreparedStatementStub implements PreparedStatement {
 
 	@Override
 	public boolean isClosed() throws SQLException {
+		// TODO 自動生成されたメソッド・スタブ
+		return false;
+	}
+
+	@Override
+	public void closeOnCompletion() throws SQLException {
+		// TODO 自動生成されたメソッド・スタブ
+	}
+
+	@Override
+	public boolean isCloseOnCompletion() throws SQLException {
 		// TODO 自動生成されたメソッド・スタブ
 		return false;
 	}

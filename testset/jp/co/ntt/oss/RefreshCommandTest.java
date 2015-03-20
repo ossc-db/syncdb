@@ -373,7 +373,7 @@ public class RefreshCommandTest {
 			fail("no exception");
 		} catch (Exception e) {
 			actual = e.getMessage();
-			e.printStackTrace();
+			//e.printStackTrace();
 			assertEquals("public.rep_ggg has no subscription", actual);
 		}
 
@@ -384,7 +384,7 @@ public class RefreshCommandTest {
 			fail("no exception");
 		} catch (Exception e) {
 			actual = e.getMessage();
-			e.printStackTrace();
+			//e.printStackTrace();
 			assertEquals("master table was dropped, subscribe id : 15", actual);
 		}
 

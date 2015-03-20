@@ -132,6 +132,7 @@ public class ResultSetStub implements ResultSet {
 	}
 
 	@Override
+	@Deprecated
 	public BigDecimal getBigDecimal(int columnIndex, int scale)
 			throws SQLException {
 		called = Thread.currentThread().getStackTrace()[1].getMethodName()
@@ -140,6 +141,7 @@ public class ResultSetStub implements ResultSet {
 	}
 
 	@Override
+	@Deprecated
 	public BigDecimal getBigDecimal(String columnLabel, int scale)
 			throws SQLException {
 		// TODO 自動生成されたメソッド・スタブ
@@ -428,6 +430,20 @@ public class ResultSetStub implements ResultSet {
 	}
 
 	@Override
+	public <T> T getObject(int columnIndex, Class<T> type)
+			throws SQLException {
+		// TODO 自動生成されたメソッド・スタブ
+		return null;
+	}
+
+	@Override
+	public <T> T getObject(String columnLabel, Class<T> type)
+			throws SQLException {
+		// TODO 自動生成されたメソッド・スタブ
+		return null;
+	}
+
+	@Override
 	public Ref getRef(int columnIndex) throws SQLException {
 		called = Thread.currentThread().getStackTrace()[1].getMethodName()
 				+ "(" + columnIndex + ")";
@@ -578,12 +594,14 @@ public class ResultSetStub implements ResultSet {
 	}
 
 	@Override
+	@Deprecated
 	public InputStream getUnicodeStream(int columnIndex) throws SQLException {
 		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	@Override
+	@Deprecated
 	public InputStream getUnicodeStream(String columnLabel) throws SQLException {
 		// TODO 自動生成されたメソッド・スタブ
 		return null;
