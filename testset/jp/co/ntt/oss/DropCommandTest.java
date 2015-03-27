@@ -42,6 +42,8 @@ public class DropCommandTest {
 	private static Connection masterConn = null;
 	private static DatabaseResource oraDB = null;
 	private static Connection oraConn = null;
+	private static int dbMajorVersion = 0;
+	private static int dbMinorVersion = 0;
 
 	// stdout test
 	protected ByteArrayOutputStream _baos;
@@ -55,6 +57,8 @@ public class DropCommandTest {
 		masterConn = masterDB.getConnection();
 		oraDB = new DatabaseResource("oracle");
 		oraConn = oraDB.getConnection();
+		dbMajorVersion = masterConn.getMetaData().getDatabaseMajorVersion();
+		dbMinorVersion = masterConn.getMetaData().getDatabaseMinorVersion();
 
 		// stdout test
 		newLine = System.getProperty("line.separator");
@@ -251,10 +255,18 @@ public class DropCommandTest {
 		} catch (SyncDatabaseException e) {
 			fail("exception thrown");
 		} catch (Exception e) {
-			assertEquals(
-					"ERROR: schema \"schemaName\" does not exist\n"
-							+ "  Where: PL/pgSQL function \"drop_mlog\" line 9 at assignment",
-					e.getMessage());
+			if ( (dbMajorVersion >= 9) && (dbMinorVersion > 0) )
+			{
+				assertEquals(
+						"ERROR: schema \"schemaName\" does not exist\n"
+								+ "  Where: PL/pgSQL function \"drop_mlog\" line 10 at assignment",
+						e.getMessage());
+			} else {
+				assertEquals(
+						"ERROR: schema \"schemaName\" does not exist\n"
+								+ "  Where: PL/pgSQL function \"drop_mlog\" line 9 at assignment",
+						e.getMessage());
+			}
 		}
 
 		// normal case

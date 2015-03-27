@@ -48,6 +48,8 @@ public class AttachCommandTest {
 	private static Connection masterConn = null;
 	private static DatabaseResource oraDB = null;
 	private static Connection oraConn = null;
+	private static int dbMajorVersion = 0;
+	private static int dbMinorVersion = 0;
 
 	// stdout test
 	protected ByteArrayOutputStream _baos;
@@ -63,6 +65,8 @@ public class AttachCommandTest {
 		replicaConn = replicaDB.getConnection();
 		oraDB = new DatabaseResource("oracle");
 		oraConn = oraDB.getConnection();
+		dbMajorVersion = masterConn.getMetaData().getDatabaseMajorVersion();
+		dbMinorVersion = masterConn.getMetaData().getDatabaseMinorVersion();
 
 		// stdout test
 		newLine = System.getProperty("line.separator");
@@ -541,10 +545,19 @@ public class AttachCommandTest {
 			fail("no exception");
 		} catch (Exception e) {
 			actual = e.getMessage();
-			assertEquals(
-					"ERROR: relation \"public.noTable\" does not exist\n"
-							+ "  Where: PL/pgSQL function \"subscribe_mlog\" line 7 at assignment",
-					actual);
+			if ( (dbMajorVersion >= 9) && (dbMinorVersion > 0) )
+			{
+				assertEquals(
+						"ERROR: relation \"public.noTable\" does not exist\n"
+								+ "  Where: PL/pgSQL function \"subscribe_mlog\" line 8 at assignment",
+							actual);
+			} else {
+				assertEquals(
+						"ERROR: relation \"public.noTable\" does not exist\n"
+								+ "  Where: PL/pgSQL function \"subscribe_mlog\" line 7 at assignment",
+							actual);
+			}
+
 		}
 
 		Statement stmt = null;
@@ -567,10 +580,18 @@ public class AttachCommandTest {
 			fail("no exception");
 		} catch (Exception e) {
 			actual = e.getMessage();
-			assertEquals(
-					"ERROR: schema \"schemaName\" does not exist\n"
-							+ "  Where: PL/pgSQL function \"subscribe\" line 13 at assignment",
-					actual);
+			if ( (dbMajorVersion >= 9) && (dbMinorVersion > 0) )
+			{
+				assertEquals(
+						"ERROR: schema \"schemaName\" does not exist\n"
+								+ "  Where: PL/pgSQL function \"subscribe\" line 14 at assignment",
+						actual);
+			} else {
+				assertEquals(
+						"ERROR: schema \"schemaName\" does not exist\n"
+								+ "  Where: PL/pgSQL function \"subscribe\" line 13 at assignment",
+						actual);
+			}
 
 			// rollback ?
 			try {
