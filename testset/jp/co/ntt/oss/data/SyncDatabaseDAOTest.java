@@ -1196,7 +1196,12 @@ public class SyncDatabaseDAOTest {
 			fail("no exception");
 		} catch (SQLException e) {
 			actual = e.getMessage();
-			if ( (dbMajorVersion >= 9) && (dbMinorVersion > 0) )
+			if ( (dbMajorVersion >= 9) && (dbMinorVersion > 1) )
+			{
+				assertEquals("ERROR: relation \"public.noTable\" does not exist\n"
+						+ "  Where: PL/pgSQL function mlog.purge_mlog(name,name) "
+						+ "line 12 at assignment", actual);
+			} else if ( (dbMajorVersion >= 9) && (dbMinorVersion > 0) )
 			{
 				assertEquals("ERROR: relation \"public.noTable\" does not exist\n"
 						+ "  Where: PL/pgSQL function \"purge_mlog\" "
@@ -1432,7 +1437,13 @@ public class SyncDatabaseDAOTest {
 		} catch (SyncDatabaseException e) {
 			fail("other exception thrown");
 		} catch (SQLException e) {
-			if ( (dbMajorVersion >= 9) && (dbMinorVersion > 0) )
+			if ( (dbMajorVersion >= 9) && (dbMinorVersion > 1) )
+			{
+				assertEquals(
+						"ERROR: relation \"public.xxx\" does not exist\n"
+								+ "  Where: PL/pgSQL function mlog.subscribe_mlog(name,name,text) line 8 at assignment",
+						e.getMessage());
+			} else if ( (dbMajorVersion >= 9) && (dbMinorVersion > 0) )
 			{
 				assertEquals(
 						"ERROR: relation \"public.xxx\" does not exist\n"
@@ -1534,7 +1545,13 @@ public class SyncDatabaseDAOTest {
 		} catch (SyncDatabaseException e) {
 			fail("other exception thrown");
 		} catch (SQLException e) {
-			if ( (dbMajorVersion >= 9) && (dbMinorVersion > 0) )
+			if ( (dbMajorVersion >= 9) && (dbMinorVersion > 1) )
+			{
+				assertEquals(
+						"ERROR: relation \"public.xxx\" does not exist\n"
+							+ "  Where: PL/pgSQL function observer.subscribe(name,name,bigint,text,text) line 14 at assignment",
+						e.getMessage());
+			} else if ( (dbMajorVersion >= 9) && (dbMinorVersion > 0) )
 			{
 				assertEquals(
 						"ERROR: relation \"public.xxx\" does not exist\n"
@@ -1662,7 +1679,13 @@ public class SyncDatabaseDAOTest {
 		} catch (SyncDatabaseException e) {
 			fail("other exception thrown");
 		} catch (SQLException e) {
-			if ( (dbMajorVersion >= 9) && (dbMinorVersion > 0) )
+			if ( (dbMajorVersion >= 9) && (dbMinorVersion > 1) )
+			{
+				assertEquals(
+						"ERROR: relation \"public.xxx\" does not exist\n"
+								+ "  Where: PL/pgSQL function mlog.create_mlog(name,name) line 20 at assignment",
+						e.getMessage());
+			} else if ( (dbMajorVersion >= 9) && (dbMinorVersion > 0) )
 			{
 				assertEquals(
 						"ERROR: relation \"public.xxx\" does not exist\n"
@@ -1733,7 +1756,13 @@ public class SyncDatabaseDAOTest {
 		} catch (SyncDatabaseException e) {
 			fail("other exception thrown");
 		} catch (SQLException e) {
-			if ( (dbMajorVersion >= 9) && (dbMinorVersion > 0) )
+			if ( (dbMajorVersion >= 9) && (dbMinorVersion > 1) )
+			{
+				assertEquals(
+						"ERROR: relation \"public.xxx\" does not exist\n"
+								+ "  Where: PL/pgSQL function mlog.drop_mlog(name,name) line 10 at assignment",
+						e.getMessage());
+			} else if ( (dbMajorVersion >= 9) && (dbMinorVersion > 0) )
 			{
 				assertEquals(
 						"ERROR: relation \"public.xxx\" does not exist\n"
@@ -1808,7 +1837,13 @@ public class SyncDatabaseDAOTest {
 		} catch (SyncDatabaseException e) {
 			fail("other exception thrown");
 		} catch (SQLException e) {
-			if ( (dbMajorVersion >= 9) && (dbMinorVersion > 0) )
+			if ( (dbMajorVersion >= 9) && (dbMinorVersion > 1) )
+			{
+				assertEquals(
+						"ERROR: relation \"public.xxx\" does not exist\n"
+								+ "  Where: PL/pgSQL function observer.unsubscribe(name,name) line 8 at assignment",
+						e.getMessage());
+			} else if ( (dbMajorVersion >= 9) && (dbMinorVersion > 0) )
 			{
 				assertEquals(
 						"ERROR: relation \"public.xxx\" does not exist\n"

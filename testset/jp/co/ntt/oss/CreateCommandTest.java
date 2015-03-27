@@ -251,7 +251,13 @@ public class CreateCommandTest {
 		} catch (SyncDatabaseException e) {
 			fail("exception thrown");
 		} catch (Exception e) {
-			if ( (dbMajorVersion >= 9) && (dbMinorVersion > 0) )
+			if ( (dbMajorVersion >= 9) && (dbMinorVersion > 1) )
+			{
+				assertEquals(
+						"ERROR: schema \"schemaName\" does not exist\n"
+								+ "  Where: PL/pgSQL function mlog.create_mlog(name,name) line 20 at assignment",
+						e.getMessage());
+			} else if ( (dbMajorVersion >= 9) && (dbMinorVersion > 0) )
 			{
 				assertEquals(
 						"ERROR: schema \"schemaName\" does not exist\n"

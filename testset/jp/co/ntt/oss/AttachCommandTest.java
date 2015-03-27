@@ -545,7 +545,13 @@ public class AttachCommandTest {
 			fail("no exception");
 		} catch (Exception e) {
 			actual = e.getMessage();
-			if ( (dbMajorVersion >= 9) && (dbMinorVersion > 0) )
+			if ( (dbMajorVersion >= 9) && (dbMinorVersion > 1) )
+			{
+				assertEquals(
+						"ERROR: relation \"public.noTable\" does not exist\n"
+								+ "  Where: PL/pgSQL function mlog.subscribe_mlog(name,name,text) line 8 at assignment",
+							actual);
+			} else if ( (dbMajorVersion >= 9) && (dbMinorVersion > 0) )
 			{
 				assertEquals(
 						"ERROR: relation \"public.noTable\" does not exist\n"
@@ -580,7 +586,13 @@ public class AttachCommandTest {
 			fail("no exception");
 		} catch (Exception e) {
 			actual = e.getMessage();
-			if ( (dbMajorVersion >= 9) && (dbMinorVersion > 0) )
+			if ( (dbMajorVersion >= 9) && (dbMinorVersion > 1) )
+			{
+				assertEquals(
+						"ERROR: schema \"schemaName\" does not exist\n"
+							+ "  Where: PL/pgSQL function observer.subscribe(name,name,bigint,text,text) line 14 at assignment",
+						actual);
+			} else if ( (dbMajorVersion >= 9) && (dbMinorVersion > 0) )
 			{
 				assertEquals(
 						"ERROR: schema \"schemaName\" does not exist\n"

@@ -255,7 +255,13 @@ public class DropCommandTest {
 		} catch (SyncDatabaseException e) {
 			fail("exception thrown");
 		} catch (Exception e) {
-			if ( (dbMajorVersion >= 9) && (dbMinorVersion > 0) )
+			if ( (dbMajorVersion >= 9) && (dbMinorVersion > 1) )
+			{
+				assertEquals(
+						"ERROR: schema \"schemaName\" does not exist\n"
+								+ "  Where: PL/pgSQL function mlog.drop_mlog(name,name) line 10 at assignment",
+						e.getMessage());
+			} else if ( (dbMajorVersion >= 9) && (dbMinorVersion > 0) )
 			{
 				assertEquals(
 						"ERROR: schema \"schemaName\" does not exist\n"
