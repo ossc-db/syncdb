@@ -122,7 +122,7 @@ public class RefreshCommand implements SyncDatabaseCommand {
 					utx.begin();
 
 					masterConn
-							.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+							.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
 
 					// first query
 					maxMlogID = SyncDatabaseDAO.getMaxMlogID(masterConn, suber

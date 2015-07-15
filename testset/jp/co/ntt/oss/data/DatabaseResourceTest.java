@@ -86,7 +86,7 @@ public class DatabaseResourceTest {
 			DatabaseResource db = new DatabaseResource("postgres1");
 			Connection conn = db.getConnection();
 			assertNotNull(conn);
-			conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+			conn.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
 			conn.close();
 		} catch (Exception e) {
 			fail("exception thrown");
