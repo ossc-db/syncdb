@@ -121,8 +121,16 @@ public class RefreshCommand implements SyncDatabaseCommand {
 					utx.setTransactionTimeout(DatabaseResource.DEFAULT_TIMEOUT);
 					utx.begin();
 
-					masterConn
+					if (masterDB.isOracle())
+					{
+						masterConn
+							.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+						log.debug("start transaction on master db with SERIALIZABLE level.");
+					} else {
+						masterConn
 							.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
+						log.debug("start transaction on master db with REPEATABLE RED level.");
+					}
 
 					// first query
 					maxMlogID = SyncDatabaseDAO.getMaxMlogID(masterConn, suber

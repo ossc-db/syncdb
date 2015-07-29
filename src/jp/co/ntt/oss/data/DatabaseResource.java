@@ -29,6 +29,7 @@ public class DatabaseResource {
 	private TMService jotm = null;
 	private XADataSource xads = null;
 	private XAConnection xaconn = null;
+	private boolean isOracle = false;
 
 	/**
 	 * Constructor for DatabaseResource.
@@ -44,6 +45,8 @@ public class DatabaseResource {
 		if (jdbcResource == null) {
 			throw new SyncDatabaseException("error.resource_notfound", name);
 		}
+
+		isOracle = jdbcResource.getUrl().contains("jdbc:oracle:");
 
 		log.debug(jdbcResource.getName() + " configuration:"
 				+ jdbcResource.getUsername() + "/" + jdbcResource.getUrl()
@@ -90,5 +93,9 @@ public class DatabaseResource {
 		xaconn = null;
 		xads = null;
 		jotm = null;
+	}
+	
+	public final boolean isOracle() {
+		return isOracle;
 	}
 }
