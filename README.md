@@ -1,11 +1,11 @@
 syncdb
 =======
-This tools enables to transfer data by query between differnt database servers.
+This tool enables to transfer data by query between different database servers.
 Currently it supports to connect to PostgreSQL, Oracle Database.
 
 Quick Introduction
 ---
-With syncdb, users can synchonize data from one database server to other database server:
+With syncdb, users can synchronize data from one database server to other database server:
 
 Setting which data to be replicate by SQL.
 ````
