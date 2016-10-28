@@ -331,9 +331,17 @@ public class SyncDatabaseDAOTest {
 			fail("other exception thrown");
 		} catch (SQLException e) {
 			actual = e.getMessage();
-			assertEquals(
-					"ERROR: subsid(99999) is not found in the mlog.subscriber",
-					actual);
+			if ( (dbMajorVersion >= 9) && (dbMinorVersion > 5) )
+			{
+				assertEquals(
+						"ERROR: subsid(99999) is not found in the mlog.subscriber\n"
+						+ "  Where: PL/pgSQL function mlog.set_subscriber(bigint,character,bigint,bigint) line 16 at RAISE",
+						actual);
+			} else {
+				assertEquals(
+						"ERROR: subsid(99999) is not found in the mlog.subscriber",
+						actual);
+			}
 		}
 	}
 
@@ -1612,9 +1620,17 @@ public class SyncDatabaseDAOTest {
 		} catch (SyncDatabaseException e) {
 			fail("other exception thrown");
 		} catch (SQLException e) {
-			assertEquals(
-					"ERROR: subsid(200) is not found in the mlog.subscriber", e
-							.getMessage());
+			if ( (dbMajorVersion >= 9) && (dbMinorVersion > 5) )
+			{
+				assertEquals(
+						"ERROR: subsid(200) is not found in the mlog.subscriber\n"
+						+ "  Where: PL/pgSQL function mlog.unsubscribe_mlog(bigint) line 26 at RAISE", e
+								.getMessage());
+			} else {
+				assertEquals(
+						"ERROR: subsid(200) is not found in the mlog.subscriber", e
+								.getMessage());
+			}
 		}
 
 		try {
