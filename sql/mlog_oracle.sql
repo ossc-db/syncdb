@@ -739,7 +739,7 @@ BEGIN
 				SELECT c.table_name AS table_name, cc.column_name AS column_name,
 					c.constraint_type AS isprimary
 				FROM all_constraints c INNER JOIN all_cons_columns cc
-					ON c.table_name = cc.table_name AND c.constraint_name = cc.constraint_name
+					ON c.table_name = cc.table_name AND c.constraint_name = cc.constraint_name AND c.owner=cc.owner
 				WHERE c.constraint_type = 'P' AND
 					c.owner = nspname AND c.table_name = relname
 			) t2
