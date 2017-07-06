@@ -144,6 +144,7 @@ public class DetachCommand implements SyncDatabaseCommand {
 			if (utx != null && utx.getStatus() != Status.STATUS_NO_TRANSACTION) {
 				utx.rollback();
 			}
+			log.debug(e.getMessage());
 
 			if (!(detached || (force && updated))) {
 				throw e;

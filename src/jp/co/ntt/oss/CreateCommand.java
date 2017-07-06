@@ -77,6 +77,7 @@ public class CreateCommand implements SyncDatabaseCommand {
 			if (utx != null && utx.getStatus() != Status.STATUS_NO_TRANSACTION) {
 				utx.rollback();
 			}
+			log.debug(e.getMessage());
 
 			throw e;
 		} finally {
