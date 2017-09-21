@@ -331,7 +331,7 @@ public class SyncDatabaseDAOTest {
 			fail("other exception thrown");
 		} catch (SQLException e) {
 			actual = e.getMessage();
-			if ( (dbMajorVersion >= 9) && (dbMinorVersion > 5) )
+			if ( (dbMajorVersion >= 10) || ( (dbMajorVersion >= 9) && (dbMinorVersion > 5) ) )
 			{
 				assertEquals(
 						"ERROR: subsid(99999) is not found in the mlog.subscriber\n"
@@ -1204,7 +1204,7 @@ public class SyncDatabaseDAOTest {
 			fail("no exception");
 		} catch (SQLException e) {
 			actual = e.getMessage();
-			if ( (dbMajorVersion >= 9) && (dbMinorVersion > 1) )
+			if ( (dbMajorVersion >= 10) || ( (dbMajorVersion >= 9) && (dbMinorVersion > 1) ) )
 			{
 				assertEquals("ERROR: relation \"public.noTable\" does not exist\n"
 						+ "  Where: PL/pgSQL function mlog.purge_mlog(name,name) "
@@ -1445,7 +1445,7 @@ public class SyncDatabaseDAOTest {
 		} catch (SyncDatabaseException e) {
 			fail("other exception thrown");
 		} catch (SQLException e) {
-			if ( (dbMajorVersion >= 9) && (dbMinorVersion > 1) )
+			if ( (dbMajorVersion >= 10) || ( (dbMajorVersion >= 9) && (dbMinorVersion > 1) ) )
 			{
 				assertEquals(
 						"ERROR: relation \"public.xxx\" does not exist\n"
@@ -1553,7 +1553,7 @@ public class SyncDatabaseDAOTest {
 		} catch (SyncDatabaseException e) {
 			fail("other exception thrown");
 		} catch (SQLException e) {
-			if ( (dbMajorVersion >= 9) && (dbMinorVersion > 1) )
+			if ( (dbMajorVersion >= 10) || ( (dbMajorVersion >= 9) && (dbMinorVersion > 1) ) )
 			{
 				assertEquals(
 						"ERROR: relation \"public.xxx\" does not exist\n"
@@ -1620,7 +1620,7 @@ public class SyncDatabaseDAOTest {
 		} catch (SyncDatabaseException e) {
 			fail("other exception thrown");
 		} catch (SQLException e) {
-			if ( (dbMajorVersion >= 9) && (dbMinorVersion > 5) )
+			if ( (dbMajorVersion >= 10) || ( (dbMajorVersion >= 9) && (dbMinorVersion > 5) ) )
 			{
 				assertEquals(
 						"ERROR: subsid(200) is not found in the mlog.subscriber\n"
@@ -1695,7 +1695,7 @@ public class SyncDatabaseDAOTest {
 		} catch (SyncDatabaseException e) {
 			fail("other exception thrown");
 		} catch (SQLException e) {
-			if ( (dbMajorVersion >= 9) && (dbMinorVersion > 1) )
+			if ( (dbMajorVersion >= 10) || ( (dbMajorVersion >= 9) && (dbMinorVersion > 1) ) )
 			{
 				assertEquals(
 						"ERROR: relation \"public.xxx\" does not exist\n"
@@ -1772,7 +1772,7 @@ public class SyncDatabaseDAOTest {
 		} catch (SyncDatabaseException e) {
 			fail("other exception thrown");
 		} catch (SQLException e) {
-			if ( (dbMajorVersion >= 9) && (dbMinorVersion > 1) )
+			if ( (dbMajorVersion >= 10) || ( (dbMajorVersion >= 9) && (dbMinorVersion > 1) ) )
 			{
 				assertEquals(
 						"ERROR: relation \"public.xxx\" does not exist\n"
@@ -1853,7 +1853,7 @@ public class SyncDatabaseDAOTest {
 		} catch (SyncDatabaseException e) {
 			fail("other exception thrown");
 		} catch (SQLException e) {
-			if ( (dbMajorVersion >= 9) && (dbMinorVersion > 1) )
+			if ( (dbMajorVersion >= 10) || ( (dbMajorVersion >= 9) && (dbMinorVersion > 1) ) )
 			{
 				assertEquals(
 						"ERROR: relation \"public.xxx\" does not exist\n"

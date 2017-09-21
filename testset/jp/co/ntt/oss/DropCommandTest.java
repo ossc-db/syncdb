@@ -255,7 +255,7 @@ public class DropCommandTest {
 		} catch (SyncDatabaseException e) {
 			fail("exception thrown");
 		} catch (Exception e) {
-			if ( (dbMajorVersion >= 9) && (dbMinorVersion > 1) )
+			if ( (dbMajorVersion >= 10) || ( (dbMajorVersion >= 9) && (dbMinorVersion > 1) ) )
 			{
 				assertEquals(
 						"ERROR: schema \"schemaName\" does not exist\n"
