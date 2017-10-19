@@ -2,6 +2,16 @@
 -- CREATE SCHEMA (observer)
 ----------------------------------------------------------------------------
 CREATE USER observer IDENTIFIED BY observer;
+-- if observer user's default tablespace is system, change tablespace to sysaux.
+DECLARE
+        ts_name DBA_USERS.DEFAULT_TABLESPACE%TYPE;
+BEGIN
+        SELECT DEFAULT_TABLESPACE INTO ts_name FROM DBA_USERS WHERE USERNAME = 'OBSERVER';
+        IF ts_name = 'SYSTEM' THEN
+                EXECUTE IMMEDIATE 'ALTER USER observer DEFAULT TABLESPACE sysaux';
+        END IF;
+END;
+/
 GRANT RESOURCE TO observer;
 GRANT UNLIMITED TABLESPACE TO observer;
 GRANT SELECT ANY DICTIONARY TO observer WITH ADMIN OPTION;

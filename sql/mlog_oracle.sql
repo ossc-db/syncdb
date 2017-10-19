@@ -2,6 +2,16 @@
 -- CREATE SCHEMA (mlog)
 ----------------------------------------------------------------------------
 CREATE USER mlog IDENTIFIED BY mlog;
+-- if mlog user's default tablespace is system, change tablespace to sysaux.
+DECLARE
+        ts_name DBA_USERS.DEFAULT_TABLESPACE%TYPE;
+BEGIN
+        SELECT DEFAULT_TABLESPACE INTO ts_name FROM DBA_USERS WHERE USERNAME = 'MLOG';
+        IF ts_name = 'SYSTEM' THEN
+                EXECUTE IMMEDIATE 'ALTER USER mlog DEFAULT TABLESPACE sysaux';
+        END IF;
+END;
+/
 GRANT RESOURCE TO mlog;
 GRANT UNLIMITED TABLESPACE TO mlog;
 GRANT SELECT ANY DICTIONARY TO mlog WITH ADMIN OPTION;
