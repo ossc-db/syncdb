@@ -3,7 +3,8 @@
 ----------------------------------------------------------------------------
 CREATE USER observer IDENTIFIED BY observer;
 GRANT RESOURCE TO observer;
-GRANT SELECT ANY DICTIONARY TO observer;
+GRANT UNLIMITED TABLESPACE TO observer;
+GRANT SELECT ANY DICTIONARY TO observer WITH ADMIN OPTION;
 GRANT SELECT ANY TABLE TO observer;
 
 ----------------------------------------------------------------------------
