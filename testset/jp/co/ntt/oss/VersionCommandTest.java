@@ -14,7 +14,7 @@ import org.junit.Test;
 
 public class VersionCommandTest {
 
-	protected String version = "SyncDatabase 1.0.1";
+	protected String version = "SyncDatabase 1.0.2";
 	protected ByteArrayOutputStream _baos;
 	protected PrintStream _out;
 	protected static String newLine;
