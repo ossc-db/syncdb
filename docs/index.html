@@ -180,9 +180,9 @@ syncdb -- あるテーブルのデータ変更を、他のテーブルへ伝播�
 <p>syncdb を実行するホスト上のJava実行環境(Java VM)が、 <a href="#requirement">動作環境</a> の記載条件と合致しているかを確認します。 記載条件と異なる場合は、インストールを行って動作環境を構築してください。</p>
 <p>例） Java実行環境の確認</p>
 <pre>$ java -version
-java version "1.6.0"
-OpenJDK  Runtime Environment (build 1.6.0-b09)
-OpenJDK Client VM (build 1.6.0-b09, mixed mode)</pre>
+openjdk version "1.8.0_144"
+OpenJDK Runtime Environment (build 1.8.0_144-b01)
+OpenJDK 64-Bit Server VM (build 25.144-b01, mixed mode)</pre>
 
 <h3 id="install">インストール</h3>
 syncdb のインストール方法について説明します。
@@ -228,9 +228,9 @@ syncdb
 <h4>JDBCドライバの配置</h4>
 <p>ダウンロードしたJDBCドライバを、インストール先ディレクトリの lib/ 配下にコピーします。</p>
 <p>例） PostgreSQL JDBCドライバ</p>
-<pre>$ cp postgresql-8.4-701.jdbc4.jar /home/syncdb/syncdb/lib</pre>
+<pre>$ cp postgresql-42.1.4.jar /home/syncdb/syncdb/lib</pre>
 <p>例） Oracle JDBCドライバ</p>
-<pre>$ cp ojdbc14.jar /home/syncdb/syncdb/lib</pre>
+<pre>$ cp ojdbc8.jar /home/syncdb/syncdb/lib</pre>
 
 <h3 id="configuration">設定ファイル</h3>
 <p>syncdb 用の設定ファイルには、マスタ側DBとレプリカ側DBの接続情報を記述する jdbcResource.xml と、syncdb が出力するログの出力形式を設定する log4j.xml  があります。 以下に設定方法を示します。</p>
@@ -757,6 +757,17 @@ input query : SELECT * FROM "Schema"."Table"&lt;改行&gt;を入力
 <li>syncdb は実行中に &lt;ctrl+c&gt; キーによる割り込みを行って処理を中断できますが、 syncdb を cron で実行している場合など、別のターミナル上から中断させたい場合は、syncdb スクリプトから実行される javaプロセスに対して直接 SIGTERM シグナルを送ってください。</li>
 <li>マスタ側のDBのトランザクションの隔離レベルは SERIALIZABLE のため、1つのマスタテーブルから1つのレプリカテーブルへのリフレッシュ処理を多重実行するとエラーになります。</li>
 <li>リフレッシュ処理実行後、「ERROR - refresh error, see server logs for details」のメッセージが出力された場合は、各DBのサーバログを確認してください。</li>
+
+<li>syncdb の差分リフレッシュと CREATE INDEX CONCURRENTLY コマンドが並行して走行した場合、syncdb の動作仕様上、タイミングによってはデッドロックが発生します。
+運用の際には、これらの2つの操作が並走しないようにスケジュールを策定してください。このような状況に陥った時は、 syncdb スクリプトから実行される javaプロセスに対して直接 SIGTERM またはSIGKILL シグナルを送り、syncdbを再実行してください。
+<li>DBモジュールをOracleにインストールする際、マスタ側DBの更新差分ログ情報、関連付け情報、およびレプリカ側の関連付け情報は、Oracleデータベースのデフォルト表領域を使用します。デフォルト表領域が設定されていない場合は、SYSAUXが選択されます。<br>
+表領域を指定する場合は、以下の例のように mlog_oracle.sql、observer_oracle.sql 内の CREATE USER コマンドにユーザのデフォルト表領域を指定してください。
+<pre> 例） users 表領域を指定する場合は、DEFAULT TABLESPACE <表領域名> を追加する。
+  - mlog_oracle.sql 
+  CREATE USER mlog IDENTIFIED BY mlog DEFAULT TABLESPACE users; 
+  - observer_oracle.sql
+  CREATE USER observer IDENTIFIED BY observer DEFAULT TABLESPACE users;
+</pre>
 </ul>
 
 <h3 id="on-abort">異常時の対処</h3>
@@ -778,6 +789,11 @@ input query : SELECT * FROM "Schema"."Table"&lt;改行&gt;を入力
 <li>syncdb status を実行した際にレプリカテーブル名が空出力される場合は、関連付けが残った状態でレプリカテーブルが手動で削除された可能性があります。 この状態でリフレッシュを行ってもエラーとなりますので、後述する <a href="#syncdb-img">syncdbの構成</a> で記述されている observer.v$subscription ビューを実行し削除されたレプリカを特定した上で、observer.subscription テーブル上から対象のレプリカ情報レコードを DELETE 文で削除してください。</li>
 <li>マスタテーブル側の DBMS が Oracle で、syncdb create の実行途中にエラーが発生した場合、Oracle側で実行されたDDLが完全にロールバックされず、以降の syncdb の操作でエラーが発生し続ける場合があります。 このような場合は、syncdb のDBモジュールのアンインストール / インストールを行って、更新差分ログを再構築してください。</li>
 </ol>
+<li>syncdb の問題ではありませんが、環境によっては OracleのJDBCを使用してOracleに接続する際に、極端に時間がかかる、もしくは、時間がかかった後に、IOエラー: Connection reset のようなエラーが発生することがあります。
+このような場合は、$SYNCDB_HOME/bin/syncdb の以下の行を編集して下さい。下記の変更は乱数の品質が低下するため、変更にあたってはセキュリティ要件を確認の上、実施して下さい。
+<pre>java jp.co.ntt.oss.SyncDatabase "$@"
+以下のように修正します。
+java -Djava.security.egd=file:/dev/./urandom jp.co.ntt.oss.SyncDatabase "$@"</pre>
 </ul>
 
 <h2 id="internal">内部構成</h2>
@@ -787,9 +803,9 @@ input query : SELECT * FROM "Schema"."Table"&lt;改行&gt;を入力
 <p>ソースからビルド／インストールする場合は、<a href="http://ant.apache.org/">Apache Ant</a> と、Java開発環境(JDK)がインストールされている必要があります。 <a href="#requirement">動作環境</a> の記載条件と合致しているかを確認し、記載条件と異なる場合はインストールを行ってビルド環境を構築してください。</p>
 <p>例） ビルド環境の確認</p>
 <pre>$ ant -version
-Apache Ant version 1.8.1 compiled on April 30 2010
+Apache Ant(TM) version 1.9.9 compiled on February 2 2017
 $ javac -version
-javac 1.6.0-internal</pre>
+javac 1.8.0_144</pre>
 <p>本ツールのソースパッケージ syncdb_src.zip ファイルを任意のディレクトリに展開後、以下の手順でインストールします。</p>
 <pre>$cd /home/syncdb/syncdb_src
 $ unzip syncdb_src.zip</pre>
@@ -968,37 +984,37 @@ syncdb.zip</pre>
     <td>JTA実装ライブラリ</td>
   </tr>
   <tr>
-    <td><a href="http://junit.org/">Junit</a></td>
-    <td>4.8.1</td>
-    <td>junit-4.8.1.jar</td>
+    <td><a href="http://junit.org/junit4/">Junit</a></td>
+    <td>4.10</td>
+    <td>junit-4.10.jar</td>
     <td align="center">含む</td>
     <td>Javaユニットテスト（開発者用）</td>
   </tr>
   <tr>
     <td><a href="http://jdbc.postgresql.org/download.html">PostgreSQL JDBC</a></td>
-    <td>接続先PostgreSQLバージョンに合わせたものをご利用ください<br>8.4 Build 701 JDBC4</td>
-    <td>接続先PostgreSQLバージョンに合わせたものをご利用ください<br>postgresql-8.4-701.jdbc4.jar</td>
+	<td>接続先PostgreSQLバージョンに合わせたものをご利用ください</td>
+	<td>接続先PostgreSQLバージョンに合わせたものをご利用ください<br>例）<br>postgresql-42.1.4.jre7.jar<br>postgresql-42.1.4.jar</td>
     <td align="center">別途入手</td>
     <td>PostgreSQL JDBC ドライバ</td>
   </tr>
   <tr>
     <td><a href="http://www.oracle.com/technology/global/jp/software/tech/java/sqlj_jdbc/htdocs/jdbc_10201.html"> Oracle JDBC</a></td>
-    <td>接続先Oracle DBバージョンに合わせたものをご利用ください<br>10g R2 Thin JDBC3</td>
-    <td>接続先Oracle DBバージョンに合わせたものをご利用ください<br>ojdbc14.jar</td>
+	<td>接続先Oracle DBバージョンに合わせたものをご利用ください</td>
+	<td>接続先Oracle DBバージョンに合わせたものをご利用ください<br>例）<br>ojdbc7.jar<br>ojdbc8.jar</td>
     <td align="center">別途入手</td>
     <td>Oracle JDBC ドライバ</td>
   </tr>
   <tr>
     <td><a href="http://checkstyle.sourceforge.net/">CheckStyle</a></td>
     <td>5.1</td>
-    <td>antlr.jar<br>checkstyle-5.1.jar<br>commons-beanutils-core.jar<br>commons-logging.jar<br>google-collect-1.0.jar</td>
+    <td>-</td>
     <td align="center">別途入手</td>
     <td>コーディング規約チェック（開発者用）</td>
   </tr>
   <tr>
     <td><a href="http://findbugs.sourceforge.net/">FindBugs</a></td>
-    <td>1.3.9</td>
-    <td>asm-3.1.jar<br>asm-commons-3.1.jar<br>asm-tree-3.1.jar<br>bcel.jar<br>commons-lang-2.4.jar<br>dom4j-1.6.1.jar<br>findbugs-ant.jar<br>findbugs.jar<br>jaxen-1.1.1.jar<br>jFormatString.jar<br>jsr305.jar</td>
+    <td>3.0.1</td>
+    <td>-</td>
     <td align="center">別途入手</td>
     <td>潜在バグやパフォーマンス問題のチェック（開発者用）</td>
   </tr>
@@ -1008,9 +1024,9 @@ syncdb.zip</pre>
 <h2 id="requirement">動作環境</h2>
 <dl>
 <dt>PostgreSQL</dt>
-<dd>PostgreSQL 9.0, 9.1, 9.2, 9.3, 9.4, 9.5, 9.6</dd>
+<dd>PostgreSQL 9.3, 9.4, 9.5, 9.6, 10</dd>
 <dt>Oracle</dt>
-<dd>Oracle Database 10g R2, 11g R2, 12c</dd>
+<dd>Oracle Database 11g R2, 12c, 12c R2</dd>
 <dt>OS</dt>
 <dd>CentOS 6/7</dd>
 <dt>Java VM</dt>
@@ -1018,7 +1034,7 @@ syncdb.zip</pre>
 <dt>JDK (ソースからビルド／インストールする場合に必要となります)</dt>
 <dd>OpenJDK devel 1.7/1.8</dd>
 <dt>Ant (ソースからビルド／インストールする場合に必要となります)</dt>
-<dd><a href="http://ant.apache.org/">Apache Ant</a> 1.8.1</dd>
+<dd><a href="http://ant.apache.org/">Apache Ant</a> 1.9.9</dd>
 </dl>
 
 <hr />
@@ -1039,3 +1055,4 @@ pageTracker._trackPageview();
 } catch(err) {}</script>
 </body>
 </html>
+
