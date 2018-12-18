@@ -827,35 +827,35 @@ public class StatusCommandTest {
 		assertEquals(0, list.size());
 
 		// cost option
-		expected = "[ option: null cost  :: show cost ]";
+		expected = "[ option: null cost  :: show cost :: class java.lang.String ]";
 		option = options.getOption("cost");
 		assertNotNull(option);
 		actual = option.toString();
 		assertEquals(expected, actual);
 
 		// master option
-		expected = "[ option: null master  [ARG] :: master server name ]";
+		expected = "[ option: null master  [ARG] :: master server name :: class java.lang.String ]";
 		option = options.getOption("master");
 		assertNotNull(option);
 		actual = option.toString();
 		assertEquals(expected, actual);
 
 		// schema option
-		expected = "[ option: null schema  [ARG] :: replica schema name ]";
+		expected = "[ option: null schema  [ARG] :: replica schema name :: class java.lang.String ]";
 		option = options.getOption("schema");
 		assertNotNull(option);
 		actual = option.toString();
 		assertEquals(expected, actual);
 
 		// server option
-		expected = "[ option: null server  [ARG] :: replica server name ]";
+		expected = "[ option: null server  [ARG] :: replica server name :: class java.lang.String ]";
 		option = options.getOption("server");
 		assertNotNull(option);
 		actual = option.toString();
 		assertEquals(expected, actual);
 
 		// table option
-		expected = "[ option: null table  [ARG] :: replica table name ]";
+		expected = "[ option: null table  [ARG] :: replica table name :: class java.lang.String ]";
 		option = options.getOption("table");
 		assertNotNull(option);
 		actual = option.toString();

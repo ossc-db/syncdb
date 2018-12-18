@@ -3,6 +3,8 @@ package jp.co.ntt.oss.data;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.ResultSet;
 
 import javax.naming.NamingException;
 import javax.sql.XAConnection;
@@ -84,7 +86,31 @@ public class DatabaseResource {
 	}
 
 	public final Connection getConnection() throws SQLException {
-		return xaconn.getConnection();
+		Connection con = null;
+		con = xaconn.getConnection();
+
+		if (!isOracle) {
+			Statement st = null;
+			ResultSet rs = null;
+			try {
+				st = con.createStatement();
+				rs = st.executeQuery("select pg_catalog.set_config('search_path', '', false)");
+				while (rs.next()) {
+					log.debug("syncdb: clear search_path");
+				}
+			} catch (Exception e) {
+				log.debug("syncdb: could not clear search_path: " + e.getMessage());
+			} finally {
+				if (rs != null) {
+					rs.close();
+				}
+				if (st != null) {
+					st.close();
+				}
+			}
+		}
+		//return xaconn.getConnection();
+		return con;
 	}
 
 	public final void stop() throws SQLException {

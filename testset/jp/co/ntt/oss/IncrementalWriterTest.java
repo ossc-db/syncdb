@@ -424,7 +424,7 @@ public class IncrementalWriterTest {
 			columnMapping.setDataMapper(1, new IntegerDataMapper());
 			columnMapping.setDataMapper(2, new StringDataMapper());
 			columnMapping.setDataMapper(3, new TimestampDataMapper());
-			writer.prepare(replicaConn, "rep_foo_inc");
+			writer.prepare(replicaConn, "public.rep_foo_inc");
 		} catch (Exception e) {
 			fail("exception thrown");
 		}

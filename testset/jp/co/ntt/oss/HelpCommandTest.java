@@ -144,61 +144,61 @@ public class HelpCommandTest {
 		assertEquals(0, list.size());
 
 		// concurrent option
-		expected = "[ option: null concurrent  :: exclusive lock a replica table ]";
+		expected = "[ option: null concurrent  :: exclusive lock a replica table :: class java.lang.String ]";
 		option = options.getOption("concurrent");
 		assertNotNull(option);
 		assertEquals(expected, option.toString());
 
 		// cost option
-		expected = "[ option: null cost  :: show cost ]";
+		expected = "[ option: null cost  :: show cost :: class java.lang.String ]";
 		option = options.getOption("cost");
 		assertNotNull(option);
 		assertEquals(expected, option.toString());
 
 		// force option
-		expected = "[ option: null force  :: force detach ]";
+		expected = "[ option: null force  :: force detach :: class java.lang.String ]";
 		option = options.getOption("force");
 		assertNotNull(option);
 		assertEquals(expected, option.toString());
 
 		// help option
-		expected = "[ option: null help  :: show help ]";
+		expected = "[ option: null help  :: show help :: class java.lang.String ]";
 		option = options.getOption("help");
 		assertNotNull(option);
 		assertEquals(expected, option.toString());
 
 		// master option
-		expected = "[ option: null master  [ARG] :: master server resource name ]";
+		expected = "[ option: null master  [ARG] :: master server resource name :: class java.lang.String ]";
 		option = options.getOption("master");
 		assertNotNull(option);
 		assertEquals(expected, option.toString());
 
 		// mode option
-		expected = "[ option: null mode  [ARG] :: refresh mode ]";
+		expected = "[ option: null mode  [ARG] :: refresh mode :: class java.lang.String ]";
 		option = options.getOption("mode");
 		assertNotNull(option);
 		assertEquals(expected, option.toString());
 
 		// query option
-		expected = "[ option: null query  [ARG] :: refresh query string ]";
+		expected = "[ option: null query  [ARG] :: refresh query string :: class java.lang.String ]";
 		option = options.getOption("query");
 		assertNotNull(option);
 		assertEquals(expected, option.toString());
 
 		// schema option
-		expected = "[ option: null schema  [ARG] :: schema name ]";
+		expected = "[ option: null schema  [ARG] :: schema name :: class java.lang.String ]";
 		option = options.getOption("schema");
 		assertNotNull(option);
 		assertEquals(expected, option.toString());
 
 		// server option
-		expected = "[ option: null server  [ARG] :: replica server resource name ]";
+		expected = "[ option: null server  [ARG] :: replica server resource name :: class java.lang.String ]";
 		option = options.getOption("server");
 		assertNotNull(option);
 		assertEquals(expected, option.toString());
 
 		// table option
-		expected = "[ option: null table  [ARG] :: table name ]";
+		expected = "[ option: null table  [ARG] :: table name :: class java.lang.String ]";
 		option = options.getOption("table");
 		assertNotNull(option);
 		assertEquals(expected, option.toString());

@@ -1,4 +1,4 @@
-SET search_path = public;
+SET search_path = '';
 
 BEGIN;
 

@@ -29,6 +29,7 @@ public class SyncDatabase {
 		} catch (SQLException e) {
 			log.debug(mProperty.getMessage("error.refresh"));
 			log.error(mProperty.getMessage("error.refresh"));
+			System.exit(1);
 		} catch (final Exception e) {
 			String stackTrace = null;
 			try {

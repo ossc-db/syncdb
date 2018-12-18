@@ -33,6 +33,7 @@ import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -1011,42 +1012,42 @@ public class RefreshCommandTest {
 		assertEquals(0, list.size());
 
 		// concurrent option
-		expected = "[ option: null concurrent  :: without taking exclusive lock on the replica table ]";
+		expected = "[ option: null concurrent  :: without taking exclusive lock on the replica table :: class java.lang.String ]";
 		option = options.getOption("concurrent");
 		assertNotNull(option);
 		actual = option.toString();
 		assertEquals(expected, actual);
 
 		// help option
-		expected = "[ option: null help  :: show help ]";
+		expected = "[ option: null help  :: show help :: class java.lang.String ]";
 		option = options.getOption("help");
 		assertNotNull(option);
 		actual = option.toString();
 		assertEquals(expected, actual);
 
 		// mode option
-		expected = "[ option: null mode  [ARG] :: refresh mode, default is auto ]";
+		expected = "[ option: null mode  [ARG] :: refresh mode, default is auto :: class java.lang.String ]";
 		option = options.getOption("mode");
 		assertNotNull(option);
 		actual = option.toString();
 		assertEquals(expected, actual);
 
 		// schema option
-		expected = "[ option: null schema  [ARG] :: replica schema name ]";
+		expected = "[ option: null schema  [ARG] :: replica schema name :: class java.lang.String ]";
 		option = options.getOption("schema");
 		assertNotNull(option);
 		actual = option.toString();
 		assertEquals(expected, actual);
 
 		// server option
-		expected = "[ option: null server  [ARG] :: replica server name ]";
+		expected = "[ option: null server  [ARG] :: replica server name :: class java.lang.String ]";
 		option = options.getOption("server");
 		assertNotNull(option);
 		actual = option.toString();
 		assertEquals(expected, actual);
 
 		// table option
-		expected = "[ option: null table  [ARG] :: replica table name ]";
+		expected = "[ option: null table  [ARG] :: replica table name :: class java.lang.String ]";
 		option = options.getOption("table");
 		assertNotNull(option);
 		actual = option.toString();
