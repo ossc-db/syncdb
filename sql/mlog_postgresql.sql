@@ -1,4 +1,4 @@
-SET search_path = public;
+SET search_path = '';
 
 BEGIN;
 
@@ -492,7 +492,7 @@ BEGIN
 			JOIN pg_catalog.pg_attribute a ON a.attrelid = c.oid
 			LEFT JOIN pg_catalog.pg_constraint ct ON ct.conrelid = c.oid
 				AND a.attnum = ANY (ct.conkey)
-		WHERE a.attnum > 0 AND c.oid = rel
+		WHERE a.attnum > 0 AND c.oid = rel AND a.attisdropped = FALSE
 			ORDER BY a.attnum ASC
 	LOOP
 		attnum := rel_data.num;

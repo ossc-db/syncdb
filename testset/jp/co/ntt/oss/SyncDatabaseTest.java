@@ -19,7 +19,7 @@ import org.junit.Test;
 
 public class SyncDatabaseTest {
 	private static String help;
-	String version = "SyncDatabase 1.0.2";
+	String version = "SyncDatabase 1.0.3";
 
 	protected ByteArrayOutputStream _baos;
 	protected PrintStream _out;

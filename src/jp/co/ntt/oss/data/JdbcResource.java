@@ -5,7 +5,7 @@ import java.io.InputStream;
 
 import jp.co.ntt.oss.SyncDatabaseException;
 
-import org.apache.commons.digester.Digester;
+import org.apache.commons.digester3.Digester;
 
 public class JdbcResource {
 	private String name;

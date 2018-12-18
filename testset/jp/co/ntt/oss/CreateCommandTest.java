@@ -328,28 +328,28 @@ public class CreateCommandTest {
 		assertEquals(0, list.size());
 
 		// help option
-		expected = "[ option: null help  :: show help ]";
+		expected = "[ option: null help  :: show help :: class java.lang.String ]";
 		option = options.getOption("help");
 		assertNotNull(option);
 		actual = option.toString();
 		assertEquals(expected, actual);
 
 		// master option
-		expected = "[ option: null master  [ARG] :: master server name ]";
+		expected = "[ option: null master  [ARG] :: master server name :: class java.lang.String ]";
 		option = options.getOption("master");
 		assertNotNull(option);
 		actual = option.toString();
 		assertEquals(expected, actual);
 
 		// schema option
-		expected = "[ option: null schema  [ARG] :: master schema name ]";
+		expected = "[ option: null schema  [ARG] :: master schema name :: class java.lang.String ]";
 		option = options.getOption("schema");
 		assertNotNull(option);
 		actual = option.toString();
 		assertEquals(expected, actual);
 
 		// table option
-		expected = "[ option: null table  [ARG] :: master table name ]";
+		expected = "[ option: null table  [ARG] :: master table name :: class java.lang.String ]";
 		option = options.getOption("table");
 		assertNotNull(option);
 		actual = option.toString();

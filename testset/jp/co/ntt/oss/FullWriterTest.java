@@ -300,7 +300,7 @@ public class FullWriterTest {
 			columnMapping.setDataMapper(0, new IntegerDataMapper());
 			columnMapping.setDataMapper(1, new StringDataMapper());
 			columnMapping.setDataMapper(2, new TimestampDataMapper());
-			writer.prepare(replicaConn, "rep_foo");
+			writer.prepare(replicaConn, "public.rep_foo");
 		} catch (Exception e) {
 			fail("exception thrown");
 		}

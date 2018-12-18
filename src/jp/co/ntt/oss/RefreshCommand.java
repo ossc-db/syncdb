@@ -190,6 +190,14 @@ public class RefreshCommand implements SyncDatabaseCommand {
 			if (suber != null) {
 				utx.setTransactionTimeout(DatabaseResource.DEFAULT_TIMEOUT);
 				utx.begin();
+
+				if (masterDB.isOracle())
+				{
+					masterConn
+						.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+					log.debug("start transaction on master db with READ COMMITTED level.");
+				}
+
 				SyncDatabaseDAO.purgeMlog(masterConn, suber.getNspName(), suber
 						.getRelName());
 

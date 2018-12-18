@@ -50,7 +50,7 @@ public class IncrementalReaderTest {
 		// argument error
 		try {
 			new IncrementalReader(null,
-					"SELECT '1', '2', '3', val1, * FROM inc", 1);
+					"SELECT '1', '2', '3', val1, * FROM public.inc", 1);
 			fail("no exception");
 		} catch (SQLException e) {
 			fail("other exception thrown");
@@ -59,7 +59,7 @@ public class IncrementalReaderTest {
 		}
 		try {
 			new IncrementalReader(null,
-					"SELECT '1', '2', '3', val1, * FROM inc", 1);
+					"SELECT '1', '2', '3', val1, * FROM public.inc", 1);
 			fail("no exception");
 		} catch (SQLException e) {
 			fail("other exception thrown");
@@ -68,7 +68,7 @@ public class IncrementalReaderTest {
 		}
 		try {
 			new IncrementalReader(masterConn,
-					"SELECT '1', '2', '3', val1, * FROM inc", 0);
+					"SELECT '1', '2', '3', val1, * FROM public.inc", 0);
 			fail("no exception");
 		} catch (SQLException e) {
 			fail("other exception thrown");
@@ -92,7 +92,7 @@ public class IncrementalReaderTest {
 		// normal case
 		try {
 			reader = new IncrementalReader(masterConn,
-					"SELECT '1', '2', '3', val1, * FROM foo", 1);
+					"SELECT '1', '2', '3', val1, * FROM public.foo", 1);
 			assertNotNull(reader);
 
 			Statement stmt = (Statement) PrivateAccessor.getPrivateField(
@@ -133,7 +133,7 @@ public class IncrementalReaderTest {
 	public final void testClose() {
 		try {
 			IncrementalReader reader = new IncrementalReader(masterConn,
-					"SELECT '1', '2', '3', val1, * FROM foo", 1);
+					"SELECT '1', '2', '3', val1, * FROM public.foo", 1);
 
 			ResultSet rset = (ResultSet) PrivateAccessor.getPrivateField(
 					reader, "rset");
@@ -151,7 +151,7 @@ public class IncrementalReaderTest {
 	public final void testGetNextColumns() {
 		try {
 			IncrementalReader reader = new IncrementalReader(masterConn,
-					"SELECT '1', '2', '3', val1, * FROM foo", 1);
+					"SELECT '1', '2', '3', val1, * FROM public.foo", 1);
 			MappingData columnMapping = reader.getColumnMapping();
 			columnMapping.setDataMapper(0, new IntegerDataMapper());
 			columnMapping.setDataMapper(1, new IntegerDataMapper());
@@ -199,7 +199,7 @@ public class IncrementalReaderTest {
 	public final void testGetColumnCount() {
 		try {
 			IncrementalReader reader = new IncrementalReader(masterConn,
-					"SELECT '1', '2', '3', val1, * FROM foo", 1);
+					"SELECT '1', '2', '3', val1, * FROM public.foo", 1);
 
 			int count = reader.getColumnCount();
 			assertEquals(4, count);
@@ -215,7 +215,7 @@ public class IncrementalReaderTest {
 		MappingData columnMapping = null;
 		try {
 			IncrementalReader reader = new IncrementalReader(masterConn,
-					"SELECT '1', '2', '3', val1, * FROM foo", 1);
+					"SELECT '1', '2', '3', val1, * FROM public.foo", 1);
 
 			columnMapping = reader.getColumnMapping();
 
@@ -261,7 +261,7 @@ public class IncrementalReaderTest {
 	public final void testGetPKCount() {
 		try {
 			IncrementalReader reader = new IncrementalReader(masterConn,
-					"SELECT '1', '2', '3', val1, * FROM foo", 1);
+					"SELECT '1', '2', '3', val1, * FROM public.foo", 1);
 
 			int count = reader.getPKCount();
 			assertEquals(1, count);
