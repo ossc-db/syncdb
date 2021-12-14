@@ -158,7 +158,7 @@ TRUE,'(1,2)','((1, 2), (3, 4))','((5, 6), (7, 8))','((11, 12), (13, 14), (15, 16
 -- BIT B'1',
 B'10101','a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
 -- '<foo>bar</foo>'::xml,
-999,'byteaout','byteaout(bytea)','!','!!(NONE,bigint)','pg_am','"any"','english','english_stem');
+999,'byteaout','byteaout(bytea)','?','*(integer,integer)','pg_am','"any"','english','english_stem');
 
 INSERT INTO public.foo VALUES
 ('1', 'A', '2010-01-01 00:00:01'),
